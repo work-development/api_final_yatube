@@ -9,8 +9,6 @@ from .permissions import IsOwnerOrReadOnly
 from rest_framework.exceptions import ValidationError
 
 
-
-
 class PostViewSet(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
@@ -63,11 +61,14 @@ class FollowViewSet(viewsets.ModelViewSet):
             raise ValidationError('Нельзя подписаться на самого себя.')
         serializer.save(user=user, following=following)
 
+
 class GroupViewSet(viewsets.ModelViewSet):
 
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
     permission_classes = [IsOwnerOrReadOnly]
 
-    def perform_create(self, serializer):
-        serializer.save(slug=self.request.query_params.get('slug'))
+    # Оказалось что в данном случае slug не нужно сохранять, но для постов в аналогичной ситуации
+    # возникает подобная потребность, спросил про это в Slack
+    # def perform_create(self, serializer):
+    #     serializer.save(slug=self.request.query_params.get('slug'))
