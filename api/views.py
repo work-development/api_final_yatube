@@ -10,7 +10,6 @@ from rest_framework.exceptions import ValidationError
 
 
 class PostViewSet(viewsets.ModelViewSet):
-
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
     #queryset = Post.objects.all()--- если не указать в router.register('posts', PostViewSet, basename='posts') basename то будит ошибка если не разкоментировать эту строчку
@@ -24,7 +23,6 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 class CommentsViewSet(viewsets.ModelViewSet):
-
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
@@ -41,7 +39,6 @@ class CommentsViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
-
     serializer_class = FollowSerializer
     queryset = Follow.objects.all()
     permission_classes = [IsOwnerOrReadOnly]
@@ -63,12 +60,8 @@ class FollowViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
     permission_classes = [IsOwnerOrReadOnly]
 
-    # Оказалось что в данном случае slug не нужно сохранять, но для постов в аналогичной ситуации
-    # возникает подобная потребность, спросил про это в Slack
-    # def perform_create(self, serializer):
-    #     serializer.save(slug=self.request.query_params.get('slug'))
+
