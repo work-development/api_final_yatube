@@ -17,9 +17,15 @@ class Group(models.Model):
 class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts"
+    )
     group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, related_name="group_posts", blank=True, null=True
+        Group,
+        on_delete=models.CASCADE,
+        related_name="group_posts",
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
@@ -27,17 +33,32 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="comments"
+    )
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments"
+    )
     text = models.TextField()
-    created = models.DateTimeField("Дата добавления", auto_now_add=True, db_index=True)
+    created = models.DateTimeField(
+        "Дата добавления", auto_now_add=True, db_index=True
+    )
 
     def __str__(self):
         return self.text
 
+
 class Follow(models.Model):
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name="follower") #который подписывается
-    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+    user = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="follower",
+    )  # который подписывается
+    following = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="following"
+    )
 
     def __str__(self):
-        return f'follower - {self.follower} following - {self.following}'
+        return f"follower - {self.follower} following - {self.following}"
