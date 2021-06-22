@@ -1,4 +1,6 @@
-# API для Yatube 
+# API для Yatube      
+
+API начинается с /api/v1/
 
 ### POSTS
 
